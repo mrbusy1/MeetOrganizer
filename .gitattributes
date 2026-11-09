@@ -1,0 +1,10 @@
+# Normalize text line endings in the repository.
+* text=auto
+
+# Windows batch files must keep CRLF in the working tree.
+*.bat text eol=crlf
+
+# Binary assets must never be line-ending converted.
+*.png binary
+*.ico binary
+*.exe binary

@@ -10,7 +10,9 @@
   "scripts": {
     "start": "node launch.js",
     "dev": "node launch.js --dev",
-    "smoke": "node launch.js --smoke"
+    "smoke": "node launch.js --smoke",
+    "dist": "electron-builder --win --dir",
+    "dist:portable": "electron-builder --win portable --x64 -c.directories.output=dist-portable"
   },
   "build": {
     "appId": "art.ai1.meetorganizer",
