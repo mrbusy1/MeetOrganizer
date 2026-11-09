@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build outputs (binaries are built locally with: npm run dist)
+dist/
+dist-portable/
+*.exe
+*.msi
+*.dmg
+*.AppImage
+*.blockmap
+builder-effective-config.yaml
+
+# Local runtime data
+.workbuddy-ai/
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Editor / OS
+.vscode/
+.idea/

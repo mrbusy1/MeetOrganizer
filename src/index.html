@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-accent="violet">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MeetOrganizer Pro — Unlimited local file organizer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+            <path d="M3 9a3 3 0 0 1 3-3h6l2.4 2.6H26a3 3 0 0 1 3 3v13a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V9Z" fill="url(#bg)"/>
+            <rect x="9" y="14" width="6" height="6" rx="1.4" fill="white" opacity=".95"/>
+            <rect x="17" y="14" width="6" height="6" rx="1.4" fill="white" opacity=".65"/>
+            <path d="m12 17 2 2 4-4" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs><linearGradient id="bg" x1="3" y1="6" x2="29" y2="27" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">MeetOrganizer <span class="pro-badge">PRO</span></div>
+          <div class="brand-sub">Unlimited Edition · v2.0</div>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav" aria-label="Main navigation">
+        <div class="nav-label">WORKSPACE</div>
+        <button class="nav-item active" data-view="overview"><span class="nav-ic" data-icon="grid"></span><span>Overview</span></button>
+        <button class="nav-item" data-view="organizer"><span class="nav-ic" data-icon="wand"></span><span>Organizer</span><span class="nav-count" id="navPlanCount">0</span></button>
+        <button class="nav-item" data-view="duplicates"><span class="nav-ic" data-icon="copy"></span><span>Duplicates</span><span class="nav-count" id="navDupCount">0</span></button>
+        <button class="nav-item" data-view="rules"><span class="nav-ic" data-icon="sliders"></span><span>Rules</span></button>
+        <div class="nav-label">AUTOMATION</div>
+        <button class="nav-item" data-view="automation"><span class="nav-ic" data-icon="bolt"></span><span>Auto Organize</span><span class="nav-dot" id="watchDot" hidden></span></button>
+        <button class="nav-item" data-view="history"><span class="nav-ic" data-icon="history"></span><span>History</span></button>
+        <div class="nav-label">SYSTEM</div>
+        <button class="nav-item" data-view="settings"><span class="nav-ic" data-icon="settings"></span><span>Settings</span></button>
+        <button class="nav-item" data-view="about"><span class="nav-ic" data-icon="info"></span><span>About & Credits</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="local-card">
+          <div class="local-top"><span class="nav-ic" data-icon="shield"></span><strong>100% Local & Private</strong></div>
+          <p>No account. No upload. No telemetry. No file limits.</p>
+          <div class="local-bar"><span></span></div>
+          <div class="local-foot"><span>Offline engine ready</span><span class="pulse"></span></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="titlebar" id="titlebar">
+        <div class="tb-left">
+          <div class="tb-crumb" id="tbCrumb">Workspace <span>/</span> <strong>Overview</strong></div>
+        </div>
+        <div class="tb-right">
+          <div class="path-chip" id="pathChip" title="Current target folder">
+            <span class="nav-ic" data-icon="folder"></span>
+            <span id="pathLabel">No folder selected</span>
+          </div>
+          <button class="tb-btn" data-action="quick-pick" title="Choose folder"><span data-icon="folderPlus"></span></button>
+          <button class="tb-btn" data-action="theme-toggle" title="Toggle light / dark theme"><span data-icon="sun"></span></button>
+          <div class="win-controls" id="winControls">
+            <button data-win="minimize" title="Minimize"><span data-icon="minimize"></span></button>
+            <button data-win="maximize" title="Maximize"><span data-icon="maximize"></span></button>
+            <button data-win="close" class="close" title="Close"><span data-icon="close"></span></button>
+          </div>
+        </div>
+      </header>
+
+      <main class="content" id="view" tabindex="-1"></main>
+
+      <footer class="app-footer">
+        <div class="footer-left">
+          <span class="footer-status-dot"></span>
+          <span>Local-first engine</span><span class="footer-sep">·</span>
+          <span id="footerMode">Desktop mode</span><span class="footer-sep">·</span>
+          <span id="footerVersion">v2.0.0</span>
+        </div>
+        <div class="footer-right">
+          <span class="footer-credit">Design and Developed by <strong>Mr.Busy</strong></span>
+          <span class="footer-sep">|</span>
+          <a href="https://ai-1.art/" id="siteLink" class="footer-link" title="Visit ai-1.art">
+            <span data-icon="globe"></span><span>AI Art · ai-1.art</span><span data-icon="external" class="footer-ext"></span>
+          </a>
+          <span class="footer-sep">|</span>
+          <span class="footer-copy">© 2026</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toasts" aria-live="polite"></div>
+  <div class="modal-root" id="modalRoot"></div>
+
+  <script src="engine.js"></script>
+  <script src="demo.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
