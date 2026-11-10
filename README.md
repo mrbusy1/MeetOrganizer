@@ -122,7 +122,7 @@ To target macOS or Linux, add the corresponding `electron-builder` target flags;
 
 `npm run dist:installer` builds **MeetOrganizer-Pro-Setup-2.0.0.exe** with NSIS. It is a normal per-user installer: welcome screen, choice of install directory, Start Menu and desktop shortcuts, and a proper uninstaller — no administrator rights required. The installer and uninstaller use `assets/icon.ico` (16/32/48/64/128/256 px).
 
-Published binaries live in the [`release/`](release/) folder and are attached to the [GitHub Releases](https://github.com/mrbusy1/MeetOrganizer/releases) page of this private repository:
+Published binaries live in the [`release/`](release/) folder and are attached to the published **[v2.0.0 Release](https://github.com/mrbusy1/MeetOrganizer/releases/tag/v2.0.0)** of this private repository (sign in with an account that has access to download them):
 
 | File | Use |
 | --- | --- |
