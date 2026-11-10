@@ -212,6 +212,20 @@
     openPath: async () => true,
     reveal: async () => true,
     openExternal: async (url) => { global.open(url, '_blank', 'noopener'); return true; },
+    copy: async (text) => {
+      try {
+        if (global.navigator && navigator.clipboard && global.isSecureContext) { await navigator.clipboard.writeText(text); return true; }
+      } catch (_) { /* fall through to legacy copy */ }
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      } catch (_) { return false; }
+    },
     win: async () => true,
     watchStart: async (folders) => folders.length,
     watchStop: async () => true,

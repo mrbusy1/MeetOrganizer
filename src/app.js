@@ -8,6 +8,11 @@
   const $ = (s, r) => (r || document).querySelector(s);
   const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
   const clone = (o) => JSON.parse(JSON.stringify(o));
+  const GH = {
+    repo: 'https://github.com/mrbusy1/MeetOrganizer',
+    profile: 'https://github.com/mrbusy1',
+    releases: 'https://github.com/mrbusy1/MeetOrganizer/releases'
+  };
 
   const S = {
     view: 'overview',
@@ -20,7 +25,7 @@
     scanning: false, organizing: false, sorterFinished: false,
     showOptions: false, visibleRows: 150, filter: '', sort: 'name',
     categoryFilter: '', selectedOnly: false, watchActive: false,
-    lastSummary: null, scheduler: null, searchTimer: null
+    lastSummary: null, scheduler: null, searchTimer: null, githubStarred: false
   };
 
   /* ------------------------------------------------------------- utilities */
@@ -96,13 +101,14 @@
     if (booted) return;
     booted = true;
     try {
-      const results = await Promise.all([MO.info(), MO.get('settings'), MO.get('rules'), MO.get('activity')]);
+      const results = await Promise.all([MO.info(), MO.get('settings'), MO.get('rules'), MO.get('activity'), MO.get('githubStar')]);
       S.info = results[0] || {};
       S.settings = Object.assign({}, E.DEFAULT_SETTINGS, results[1] || {});
       if (!Array.isArray(S.settings.excludes)) S.settings.excludes = E.DEFAULT_SETTINGS.excludes.slice();
       if (!Array.isArray(S.settings.watchFolders)) S.settings.watchFolders = [];
       S.rules = Array.isArray(results[2]) && results[2].length ? results[2] : clone(E.DEFAULT_RULES);
       S.activity = Array.isArray(results[3]) ? results[3] : [];
+      S.githubStarred = !!results[4];
       S.root = S.settings.defaultFolder || S.info.downloads || '';
     } catch (err) { console.warn('boot', err); }
 
@@ -111,6 +117,7 @@
 
     applyTheme();
     hydrateIcons(document);
+    updateGithubCard();
     if (!MO.isDesktop) {
       const wc = $('#winControls'); if (wc) wc.style.display = 'none';
       $('#footerMode').textContent = 'Preview mode';
@@ -137,6 +144,16 @@
 
   async function refreshSessions() {
     try { S.sessions = await MO.sessions() || []; } catch (_) { S.sessions = []; }
+  }
+
+  /* Sidebar GitHub card: star state is remembered locally, the actual star
+   * is placed by the user on github.com (no token ever leaves this machine). */
+  function updateGithubCard() {
+    const btn = $('#ghStarBtn');
+    if (!btn) return;
+    btn.classList.toggle('starred', S.githubStarred);
+    btn.innerHTML = E.icon('star', 13) + '<span>' + (S.githubStarred ? 'Starred' : 'Give a star') + '</span>';
+    btn.title = S.githubStarred ? 'Repository starred — open it again' : 'Star this repository on GitHub';
   }
 
   function bindEvents() {
@@ -515,7 +532,12 @@
       '<div class="credit-block"><div class="eyebrow">Credits</div><h3>Design and Developed by Mr.Busy</h3>' +
       '<p>Interface design, product architecture and full-stack implementation of this unlimited edition.</p>' +
       '<a class="credit-link" href="https://ai-1.art/" data-action="about-link">' + E.icon('globe', 16) + ' AI Art — https://ai-1.art/ ' + E.icon('external', 14) + '</a>' +
-      '<div class="feature-chips"><span class="chip">AI Art · AI Tool Directory</span><span class="chip">Services & Digital Products</span><span class="chip">© 2026</span></div></div>';
+      '<div class="gh-about-links">' +
+        '<a class="credit-link" href="https://github.com/mrbusy1/MeetOrganizer" data-action="github-repo">' + E.icon('github', 15) + ' github.com/mrbusy1/MeetOrganizer ' + E.icon('external', 13) + '</a>' +
+        '<a class="credit-link" href="https://github.com/mrbusy1" data-action="github-profile">' + E.icon('link', 15) + ' mrbusy1 on GitHub ' + E.icon('external', 13) + '</a>' +
+      '</div>' +
+      '<div class="gh-about-actions">' + btn('github-star', S.githubStarred ? 'Starred' : 'Give a star', 'star', 'btn-soft') + btn('github-share', 'Share repo', 'share', 'btn-ghost') + btn('github-releases', 'Releases', 'download', 'btn-ghost') + '</div>' +
+      '<div class="feature-chips"><span class="chip">AI Art · AI Tool Directory</span><span class="chip">GitHub · mrbusy1</span><span class="chip">© 2026</span></div></div>';
   }
 
   /* ----------------------------------------------------------------- modals */
@@ -913,6 +935,23 @@
         break;
       }
       case 'about-link': MO.openExternal('https://ai-1.art/'); break;
+      case 'github-repo': MO.openExternal(GH.repo); break;
+      case 'github-profile': MO.openExternal(GH.profile); break;
+      case 'github-releases': MO.openExternal(GH.releases); break;
+      case 'github-star': {
+        S.githubStarred = true;
+        MO.set('githubStar', true);
+        updateGithubCard();
+        MO.openExternal(GH.repo);
+        toast('GitHub opened — click the ★ Star button to support the project');
+        break;
+      }
+      case 'github-share': {
+        Promise.resolve(MO.copy(GH.repo))
+          .then((ok) => toast(ok ? 'Repo link copied to clipboard — ready to share' : 'Share this link: ' + GH.repo, ok ? 'success' : 'info'))
+          .catch(() => toast('Share this link: ' + GH.repo, 'info'));
+        break;
+      }
       case 'modal-close': closeModal(); break;
       case 'sorter-pause': {
         const paused = el.dataset.paused === '1';

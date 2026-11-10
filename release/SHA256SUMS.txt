@@ -1,0 +1,2 @@
+d409ade7381a426a62050d667177fc8a3b36554555018e12dcadcff6ec537f55  MeetOrganizer-Pro-Setup-2.0.0.exe
+52c83bdcbbf7ed854bfdc4f4f9bf3883d7dc2a4520db44c55afa0c81aa334510  MeetOrganizer-Pro-2.0.0-Portable.exe

@@ -4,7 +4,16 @@ node_modules/
 # Build outputs (binaries are built locally with: npm run dist)
 dist/
 dist-portable/
+dist-nsis/
+dist-nsis-*/
+dist-nsis-out/
+dist-portable-out/
+install-test/
 *.exe
+
+# Built binaries live in release/ on disk and are published as GitHub
+# Release assets; they are not committed (GitHub's 100 MB file cap).
+release/*.exe
 *.msi
 *.dmg
 *.AppImage

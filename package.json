@@ -12,7 +12,8 @@
     "dev": "node launch.js --dev",
     "smoke": "node launch.js --smoke",
     "dist": "electron-builder --win --dir",
-    "dist:portable": "electron-builder --win portable --x64 -c.directories.output=dist-portable"
+    "dist:portable": "electron-builder --win portable --x64 -c.directories.output=dist-portable",
+    "dist:installer": "electron-builder --win nsis --x64 -c.directories.output=dist-nsis"
   },
   "build": {
     "appId": "art.ai1.meetorganizer",
@@ -20,7 +21,18 @@
     "copyright": "Copyright (c) 2026 Design and Developed by Mr.Busy - https://ai-1.art/",
     "directories": { "output": "dist" },
     "files": ["main.js", "preload.js", "launch.js", "src/**/*", "assets/**/*", "package.json"],
-    "win": { "target": ["dir"], "icon": "assets/icon.png" },
+    "win": { "target": ["dir"], "icon": "assets/icon.ico" },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "MeetOrganizer Pro",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "artifactName": "MeetOrganizer-Pro-Setup-${version}.${ext}"
+    },
     "asar": true
   },
   "devDependencies": {

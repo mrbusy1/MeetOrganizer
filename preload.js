@@ -22,6 +22,7 @@ contextBridge.exposeInMainWorld('MO', {
   openPath: (target) => invoke('shell:open', target),
   reveal: (target) => invoke('shell:reveal', target),
   openExternal: (url) => invoke('shell:external', url),
+  copy: (text) => invoke('clipboard:write', text),
   win: (action) => invoke('win:control', action),
   watchStart: (folders) => invoke('watch:start', folders),
   watchStop: () => invoke('watch:stop'),

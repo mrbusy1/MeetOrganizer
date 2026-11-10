@@ -51,6 +51,8 @@ No account, no quota, no paywall, no telemetry, no cloud upload. File operations
 
 **Appearance** — dark and light themes, four accent colors, persisted locally.
 
+**GitHub card** — bottom-left of the sidebar: the `mrbusy1/MeetOrganizer` repo link, a **Give a star** button that opens the repository (the star state is remembered locally), a **Share** button that copies the repo link to the clipboard, plus shortcuts to the `mrbusy1` profile and Releases. The About & Credits screen repeats these links.
+
 ### Views
 
 | View | Purpose |
@@ -98,6 +100,7 @@ Open `src/index.html` directly in a browser, or append `?view=<name>` (e.g. `?vi
 | `npm run smoke` | Built-in self-test: verifies window, preload bridge and IPC, then exits |
 | `npm run dist` | Build unpacked Windows app into `dist/win-unpacked/` |
 | `npm run dist:portable` | Build single-file portable `.exe` into `dist-portable/` |
+| `npm run dist:installer` | Build the NSIS Setup installer into `dist-nsis/` |
 
 `launch.js` clears `ELECTRON_RUN_AS_NODE` before spawning Electron — some tool environments export it, which makes `require('electron')` return a plain path string and crashes the app. `START.bat` does the same.
 
@@ -114,6 +117,21 @@ npm run dist:portable   # dist-portable/MeetOrganizer Pro 2.0.0.exe (single file
 `electron-builder` config lives in the `build` field of `package.json` (`appId`, icon, asar, file allowlist). The portable target needs a fresh output directory; if a previous `win-unpacked` folder is locked or cannot be cleaned, delete it manually or point `-c.directories.output` at a new path.
 
 To target macOS or Linux, add the corresponding `electron-builder` target flags; the source itself is platform-neutral (`path` / `fs` APIs throughout).
+
+### Windows installer
+
+`npm run dist:installer` builds **MeetOrganizer-Pro-Setup-2.0.0.exe** with NSIS. It is a normal per-user installer: welcome screen, choice of install directory, Start Menu and desktop shortcuts, and a proper uninstaller — no administrator rights required. The installer and uninstaller use `assets/icon.ico` (16/32/48/64/128/256 px).
+
+Published binaries live in the [`release/`](release/) folder and are attached to the [GitHub Releases](https://github.com/mrbusy1/MeetOrganizer/releases) page of this private repository:
+
+| File | Use |
+| --- | --- |
+| `MeetOrganizer-Pro-Setup-2.0.0.exe` | Standard Windows installer (recommended) — Release asset |
+| `MeetOrganizer-Pro-2.0.0-Portable.exe` | Single-file app, no installation — Release asset |
+| `SHA256SUMS.txt` | Verify either download before running |
+| `manifest.json` | Version, build date, sizes and hashes of the published artifacts |
+
+The two `.exe` files live in `release/` locally and are uploaded as GitHub Release assets; they are deliberately not committed (GitHub caps single files at 100 MB and large pushes are unreliable). `SHA256SUMS.txt` and `manifest.json` are tracked so the published binaries remain verifiable.
 
 ---
 

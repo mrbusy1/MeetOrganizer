@@ -2,7 +2,7 @@
  * Local-first desktop file organizer. No network, no account, no telemetry.
  * Design & Developed by Mr.Busy — https://ai-1.art/
  */
-const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell, clipboard } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const fsp = fs.promises;
@@ -395,6 +395,7 @@ ipcMain.handle('fs:preview', async (_e, file) => {
 ipcMain.handle('shell:open', (_e, target) => shell.openPath(target));
 ipcMain.handle('shell:reveal', (_e, target) => { shell.showItemInFolder(target); return true; });
 ipcMain.handle('shell:external', (_e, url) => shell.openExternal(url));
+ipcMain.handle('clipboard:write', (_e, text) => { clipboard.writeText(String(text == null ? '' : text)); return true; });
 
 ipcMain.handle('win:control', (_e, action) => {
   if (!win) return false;
